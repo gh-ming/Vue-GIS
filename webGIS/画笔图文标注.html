@@ -72,6 +72,29 @@
         var layer = new ol.layer.Vector({
             source
         })
+        // 通过Style类创建标注style
+        const style = new ol.style.Style({
+        /**{olx.style.IconOptions}类型*/
+        image: new ol.style.Icon({
+            //微调，第一个参数左右偏移。第二个参数上下偏移
+            anchor: [0.5,0.9],
+            //图标缩放比例
+            scale: 0.5,
+            //透明度
+            opacity: 0.75,
+            //图标的url
+            src: './src/position.png',
+        }),
+        text:new ol.style.Text({
+        offsetX:0,
+        offsetY:10,
+        font:'normal 12px 微软雅黑',
+        text:'武汉市',
+        fill:new ol.style.Fill({color:'#333'}),
+        stroke:new ol.style.Stroke({color:"#ff2d51",width:2})
+        })
+        })
+        layer.setStyle(style)
         map.addLayer(layer);
         /* 激活画笔 */
         let draw;
@@ -81,30 +104,6 @@
                 source
             })
             map.addInteraction(draw);
-            // 通过Style类创建icon
-            const icon = new ol.style.Style({
-            /**{olx.style.IconOptions}类型*/
-            image: new ol.style.Icon({
-                //微调，第一个参数左右偏移。第二个参数上下偏移
-                anchor: [0.5,0.9],
-                //图标缩放比例
-                scale: 0.5,
-                //透明度
-                opacity: 0.75,
-                //图标的url
-                src: './src/position.png',
-            }),
-            text:new ol.style.Text({
-            offsetX:0,
-            offsetY:10,
-            font:'normal 12px 微软雅黑',
-            text:'武汉市',
-            fill:new ol.style.Fill({color:'#333'}),
-            stroke:new ol.style.Stroke({color:"#ff2d51",width:2})
-            })
-        })
-        layer.setStyle(icon)
-        map.addLayer(layer)
         draw.on('drawend', function (e) {
         console.log('绘制完成')
         })
