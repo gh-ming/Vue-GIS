@@ -14,7 +14,9 @@
     </style>
 </head>
 <body>
-
+    <button onclick="active()">激活画笔</button>
+    <button onclick="remove()">移除画笔</button>
+    <button onclick="reset()">清除</button>
     <div id="map_container">
 
     </div>
@@ -58,27 +60,29 @@
         })       
         const map = new ol.Map({
             target:'map_container',
-            layers:[TianDiMap_vec,TianDiMap_cva],
+            layers:[TianDiMap_img,TianDiMap_cia],
             view:new ol.View({
                 projection:'EPSG:4326',
                 center:[114,31],
                 zoom:10
             })
         })
-        /* 1、创建要素类 */
-        const point =  new ol.Feature({
-        /* 创建点 */
-        geometry:new ol.geom.Point([114.4,30.6])
+        /* 1、创建画布--创建了一个空的矢量数据源 */
+        var source = new ol.source.Vector({});
+        var layer = new ol.layer.Vector({
+            source
         })
-        const source= new ol.source.Vector({
-            features:[point]
-        })
-        /* 4、创建图层 */
-        const layer = new ol.layer.Vector({
-            source:source
-        })
-        // 通过Style类创建icon
-        const icon = new ol.style.Style({
+        map.addLayer(layer);
+        /* 激活画笔 */
+        let draw;
+        function active(){
+            draw = new ol.interaction.Draw({
+                type:"Point",
+                source
+            })
+            map.addInteraction(draw);
+            // 通过Style类创建icon
+            const icon = new ol.style.Style({
             /**{olx.style.IconOptions}类型*/
             image: new ol.style.Icon({
                 //微调，第一个参数左右偏移。第二个参数上下偏移
@@ -101,6 +105,18 @@
         })
         layer.setStyle(icon)
         map.addLayer(layer)
+        draw.on('drawend', function (e) {
+        console.log('绘制完成')
+        })
+        }
+        //移除画笔
+        function remove(){
+            map.removeInteraction(draw);
+        }
+        //清除数据
+        function reset(){
+            source.clear();
+        }
     </script>
 </body>
 </html>
