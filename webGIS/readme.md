@@ -1,6 +1,10 @@
 <a name="e308e4b0"></a>
 ## openlayer入门
 
+完整链接：https://www.yuque.com/weiming-uuazw/govy07/fur1lzxf61gfg6br?singleDoc# 《ReadMe》
+
+参考内容：https://www.yuque.com/xzd-school/bl9241
+
 lib文件夹是依赖，里面有openlayer接口，使用时需要导入：`<script src="./lib/include-openlayers-local.js"></script>`
 
 <a name="5360a73e"></a>
