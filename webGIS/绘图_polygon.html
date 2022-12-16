@@ -64,77 +64,42 @@
                 zoom:10
             })
         })
-        /* 创建圆要素 */
-        const Circle = new ol.Feature({
-        geometry:new ol.geom.Circle([114.4,30.6],5)
+            /* 1、创建一个多边形 */
+        const Polygon = new ol.Feature({
+            geometry: new ol.geom.Polygon([
+                [
+                    [-50, -10],
+                    [-30, 10],
+                    [-10, -5]
+                ]
+            ])
         })
-        /* 设置样式 */
-        Circle.setStyle(
-        new ol.style.Style({
-            fill:new ol.style.Fill({
-            color:"rgba(255,255,255,0.4)"
-            }),
-            stroke:new ol.style.Stroke({
-            color:"#333",
-            width:2
-            })
-        })
-        )
-        // 正方形
-        /* 根据圆获取多边形 */
-        // [10,0] 绘制的坐标原点  5表示半径
-        const SquareCircle = new ol.geom.Circle([114.4,30.6],5)
-        const Square = new ol.Feature({
-            /* 
-            第一个参数:Circle(圆对象) 
-            第二个参数:正n边形
-            第三个参数:旋转的弧度,PI是180°
-            */
-            geometry:new ol.geom.Polygon.fromCircle(SquareCircle,4,Math.PI/4)
-        })
-        /* 设置样式 */
-        Square.setStyle(
+        /* 2、设置去样式信息 */
+        //设置区样式信息
+        Polygon.setStyle(
             new ol.style.Style({
-                fill:new ol.style.Fill({
-                    color:'rgba(255,255,255,.7)'
+                //填充色
+                fill: new ol.style.Fill({
+                    color: 'rgba(255, 255, 255, 0.5)',
                 }),
-                stroke:new ol.style.Stroke({
-                    color:"#333",
-                    width:3
-                })
-            })
-        )
-        //矩形
-        /* 根据范围(从左下角到右上角) */
-        const Rectangle = new ol.Feature({
-        /*
-            第一个参数：左下角
-            第二个参数: 右上角
-        */
-            geometry:new ol.geom.Polygon.fromExtent([109.4,25.6,119.4,40.6])
-        })
-        /* 设置样式 */
-        Rectangle.setStyle(
-            new ol.style.Style({
-                fill:new ol.style.Fill({
-                    color:'rgba(255,255,255,.7)'
-                }),
-                stroke:new ol.style.Stroke({
-                    color:"#333",
-                    width:3
+                //边线颜色
+                stroke: new ol.style.Stroke({
+                    color: '#ffcc33',
+                    width: 2,
                 })
             })
         )
         /* 3、设置数据源 */
         var source = new ol.source.Vector({
-        features:[Circle,Square,Rectangle]
+            features: [Polygon],
+            wrapX:false //x轴不重复
         })
         /* 4、创建图层 */
         var vector = new ol.layer.Vector({
-        source:source
+            source: source
         })
         /* 5、将图层添加到地图容器中 */
-        map.addLayer(vector)
+        map.addLayer(vector)    
     </script>
 </body>
 </html>
