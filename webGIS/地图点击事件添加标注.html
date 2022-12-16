@@ -14,7 +14,8 @@
     </style>
 </head>
 <body>
-
+    <button onclick="active()">激活地图事件</button>
+    <button onclick="remove()">移除地图事件</button>
     <div id="map_container">
 
     </div>
@@ -58,26 +59,16 @@
         })       
         const map = new ol.Map({
             target:'map_container',
-            layers:[TianDiMap_vec,TianDiMap_cva],
+            layers:[TianDiMap_img,TianDiMap_cia],
             view:new ol.View({
                 projection:'EPSG:4326',
                 center:[114,31],
                 zoom:10
             })
         })
-        /* 1、创建要素类 */
-        const point =  new ol.Feature({
-        /* 创建点 */
-        geometry:new ol.geom.Point([114.4,30.6])
-        })
-        const point1 =  new ol.Feature({
-            /* 创建点 */
-            geometry:new ol.geom.Point([114.5,30.6])
-        })
         const source= new ol.source.Vector({
-            features:[point,point1]
         })
-        /* 4、创建图层 */
+        /* 创建图层 */
         const layer = new ol.layer.Vector({
             source:source
         })
@@ -97,6 +88,22 @@
         })
         layer.setStyle(icon)
         map.addLayer(layer)
+        /*地图事件：点击获取经纬度*/
+        function active(){
+            map.on("click",handleMap)
+        }
+        function remove(){
+            map.un("click",handleMap)
+            source.clear()
+        }
+        function handleMap(e){
+            console.log(e.coordinate)
+            const point =  new ol.Feature({
+            /* 创建点 */
+            geometry:new ol.geom.Point(e.coordinate)
+        })
+            source.addFeature(point)
+        }
     </script>
 </body>
 </html>
