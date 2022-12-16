@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="./lib/include-openlayers-local.js"></script>
+    <script src="./api/draw.js"></script>
     <style>
         *{
             margin: 0px;
@@ -14,9 +15,6 @@
     </style>
 </head>
 <body>
-    <button onclick="active()">激活地图事件</button>
-    <button onclick="remove()">移除地图事件</button>
-    <button onclick="flyTo()">飞行</button>
     <div id="map_container">
 
     </div>
@@ -67,24 +65,18 @@
                 zoom:10
             })
         })
-        /*地图事件：点击获取经纬度*/
-        function active(){
-            map.on("click",handleMap)
-        }
-        function remove(){
-            map.un("click",handleMap)
-        }
-        function handleMap(e){
-            console.log(e.coordinate)
-        }
-        /*地图事件：飞行*/
-        function flyTo(){
-            map.getView().animate({
-            center:[114,30],
-            zoom:10,
-            duration:1000 //1000ms，过渡动画
+        var source = new ol.source.Vector({});
+        var layer = new ol.layer.Vector({
+            source
         })
-        }
+        map.addLayer(layer);
+        var draw = createDraw({
+            type: "Point",
+            source,
+            callback: (e) => {
+            }
+        })
+        map.addInteraction(draw)
     </script>
 </body>
 </html>

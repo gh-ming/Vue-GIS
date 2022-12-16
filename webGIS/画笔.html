@@ -77,7 +77,8 @@
         let draw;
         function active(){
             draw = new ol.interaction.Draw({
-                type:"Point",
+                type:"Circle",
+                geometryFunction:ol.interaction.Draw.createRegularPolygon(4),
                 source
             })
             map.addInteraction(draw);
